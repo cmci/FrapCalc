@@ -72,6 +72,8 @@
 //			Fitting of averaged curve is done with actual standard deviation. finally, BatchFitting() is added with BatchAverageAndFit() in its last line. 
 //100427 ver9k added importing set Zeiss time-frap-ref-base and time-frap-base-ref
 //100428          added batch processing, then debugging: cellpart gap ratio debugged. 
+//170510 ver9l compiler flag "The compiler now flags the use of wave read with no point spec with the error "ambiguous wave point number".
+//			printf for frapweight wave causing this flag. 
 
 //FittingParameterWave
 //
@@ -2175,7 +2177,8 @@ Function K_FrapCalcCore()//decwave_xnm,decwave_ynm,Frapwave_ynm,FitPara_wave)			
 		variable avg_measure=V_avg
 		//frapweight[]=Frapwave[p]*V_sdev/V_avg	//050816
 		frapweight=sdev_measure
-		printf "Standard Deviation of Curve is calculated from Pre-Bleach fluctuation: s.d. = %g\r", frapweight
+		//printf "Standard Deviation of Curve is calculated from Pre-Bleach fluctuation: s.d. = %g\r", frapweight //20170510: IgorPro7, "The compiler now flags the use of wave read with no point spec with the error "ambiguous wave point number"."
+		printf "Standard Deviation of Curve is calculated from Pre-Bleach fluctuation: s.d. = %g\r", sdev_measure
 		if (G_weight==1)		//  when "Weighting" in fit panel is clicked. Q value is not really relaiable then. 
 			frapweight[K_FrapTimetoPnt(timewave,G_WeightLowPnt),K_FrapTimetoPnt(timewave,G_WeightHighPnt)]=sdev_measure*0.2
 			//frapweight[]=frapweight[p]/2+0.1
